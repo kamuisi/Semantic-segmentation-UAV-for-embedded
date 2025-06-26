@@ -1,1 +1,1 @@
-pip install --upgrade onnx onnxscript torch numpy onnx2tf onnx_graphsurgeon sng4onnx tf_keras
+pip install --upgrade onnx onnxscript torch numpy onnx2tf onnx_graphsurgeon sng4onnx tf_keras //this is for exporting not for training
