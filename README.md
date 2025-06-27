@@ -1,9 +1,11 @@
 # **How to use**
 First, install requirements.txt.
 
-After that, move dataset to specific folder images_png and masks_png.
+After that, move the dataset to the specific folders: **images_png** and **masks_png**.
 
-And then, train by following command ```python train.py```
+And then, start training with the following command ```python train.py```.
+
+If you want to export and quantize the model, first run command in install.txt on a linux system, then run ```python export_model.py```.
 
 # **About our project**
 In this project we used Fast_SCNN to build a semantic segmentation model with [LoveDA dataset](https://zenodo.org/records/5706578). 
