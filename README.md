@@ -14,7 +14,7 @@ Beside that, we applied knownlegde learned from **AI for Embedded courses** to p
 
 Our model, after training, achieves ~48FPS and 0.62 accuracy on laptop CPU. 
 
-After exporting and quantizing to TFLITE, its run at ~0.5FPS with 0.0245 accuracy on Raspberry Pi.
+After exporting and quantizing to TFLite, its run at ~0.5FPS with 0.0245 accuracy on Raspberry Pi.
 
 # **Fast_SCNN reference**
 Our architecture based on the origin [Fast_SCNN paper](https://arxiv.org/abs/1902.04502).
