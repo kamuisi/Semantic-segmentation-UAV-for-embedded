@@ -78,10 +78,10 @@ def train(model, dataloader, device, epochs=100):
 
         epoch_loss = running_loss / len(dataloader)
         print(f"[Epoch {epoch+1}/{epochs}] Loss: {epoch_loss:.4f}")
-    # if isinstance(model, torch.nn.DataParallel):
-    #   torch.save(model.module.state_dict(), "fast_scnn_model.pth")
-    # else:
-    #   torch.save(model.state_dict(), "fast_scnn_model.pth")
+    if isinstance(model, torch.nn.DataParallel):
+      torch.save(model.module.state_dict(), "fast_scnn_model.pth")
+    else:
+      torch.save(model.state_dict(), "fast_scnn_model.pth")
     torch.save(model.state_dict(), "fast_scnn_model.pth")
     print("✅ Model saved as `fast_scnn_model.pth`")
 
@@ -106,8 +106,8 @@ def run_training_pipeline(image_dir, mask_dir, num_classes=8, batch_size=4, epoc
     dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
 
     model = Fast_SCNN(num_classes=num_classes).to(DEVICE)
-    # if torch.cuda.device_count() > 1:
-    #   model = nn.DataParallel(model)
+    if torch.cuda.device_count() > 1:
+      model = nn.DataParallel(model)
     train(model, dataloader, DEVICE, epochs=epochs)
 
 if __name__ == "__main__":

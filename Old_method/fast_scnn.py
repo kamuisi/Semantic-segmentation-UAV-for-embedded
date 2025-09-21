@@ -1,3 +1,4 @@
+#This model structure transfer learning from mobilenet_v2
 import torch
 from torch import nn
 import torch.nn.functional as F

@@ -10,7 +10,7 @@ interpreter.allocate_tensors()
 input_details = interpreter.get_input_details()
 output_details = interpreter.get_output_details()
 
-# Lấy danh sách ảnh và mask
+# Take image và mask sources
 image_dir = "Urban/images_png"
 mask_dir = "Urban/masks_png"
 image_paths = sorted(glob.glob(os.path.join(image_dir, "*.png")))
@@ -20,17 +20,17 @@ correct_pixels = 0
 total_pixels = 0
 
 for img_path, mask_path in zip(image_paths, mask_paths):
-    # Load và preprocess ảnh
+    # Load và preprocess image
     img = Image.open(img_path).convert("RGB").resize((320, 320))
     arr = np.array(img).astype(np.float32) / 255.0  # (320, 320, 3)
     arr = np.transpose(arr, (2, 0, 1))  # (3, 320, 320)
     arr = np.expand_dims(arr, axis=0)   # (1, 3, 320, 320)
 
-    # Nếu model TFLite nhận (1, 320, 320, 3), cần chuyển lại
+    # Convert if TFLite need (1, 320, 320, 3)
     if list(input_details[0]['shape']) == [1, 320, 320, 3]:
         arr = np.transpose(arr, (0, 2, 3, 1))  # (1, 320, 320, 3)
 
-    # Nếu model int8/uint8, scale lại
+    # Scale if model is quantized
     if input_details[0]['dtype'] == np.uint8:
         arr = (arr * 255).astype(np.uint8)
     elif input_details[0]['dtype'] == np.int8:
@@ -38,9 +38,9 @@ for img_path, mask_path in zip(image_paths, mask_paths):
 
     interpreter.set_tensor(input_details[0]['index'], arr)
     interpreter.invoke()
-    output = interpreter.get_tensor(output_details[0]['index'])  # (1, num_classes, 320, 320) hoặc (1, 320, 320, num_classes)
+    output = interpreter.get_tensor(output_details[0]['index'])  # (1, num_classes, 320, 320) or (1, 320, 320, num_classes)
 
-    # Nếu output là (1, 320, 320, num_classes), chuyển về (1, num_classes, 320, 320)
+    # IF (1, 320, 320, num_classes), convert to (1, num_classes, 320, 320)
     if output.shape[-1] == output.shape[1] and output.shape[1] != 3:
         output = np.transpose(output, (0, 3, 1, 2))
         
@@ -49,7 +49,7 @@ for img_path, mask_path in zip(image_paths, mask_paths):
     # Load mask
     mask = np.array(Image.open(mask_path).resize((320, 320)), dtype=np.int64)
     if mask.ndim == 3:
-        mask = mask[:, :, 0]  # Nếu mask là ảnh màu
+        mask = mask[:, :, 0]  # If mask has 3 channels, take one channel
 
     correct_pixels += (pred == mask).sum()
     total_pixels += mask.size

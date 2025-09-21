@@ -82,7 +82,7 @@ def export_onnx():
     model.eval()
     export_ppm = PyramidPoolingModuleExport(128)
     copy_bn_stats(model.gobal_feature[-1], export_ppm)
-    model.gobal_feature[-1] = export_ppm  # đổi PyramidPoolingModule dể export
+    model.gobal_feature[-1] = export_ppm  # change PyramidPoolingModule because it contains AdaptiveAvgPool2d
     dummy_input = (torch.randn(1, 3, 320, 320),)
     torch.onnx.export(model, dummy_input, "fast_scnn.onnx")
 
@@ -92,4 +92,4 @@ def onnx_to_tf():
 if __name__ == "__main__":
     export_onnx()
     onnx_to_tf()
-    print("🎉 All done! Your TFLite model is ready.")
+    print("Finish")

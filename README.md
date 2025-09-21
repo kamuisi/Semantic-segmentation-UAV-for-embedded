@@ -1,29 +1,51 @@
-# **How to use**
-First, install requirements.txt.
 
-After that, move the dataset to the specific folders: **images_png** and **masks_png**.
+# UAV Semantic Segmentation on Embedded System
 
-And then, start training with the following command ```python train.py```.
+This is a mini project from my **Artificial Intelligence for Embedded System** course. It demonstrates how to run an AI model on an embedded system with limited resources.
 
-If you want to export and quantize the model, first run command in install.txt on a linux system, then run ```python export_model.py```.
 
-# **About our project**
-In this project we used Fast_SCNN to build a semantic segmentation model with [LoveDA dataset](https://zenodo.org/records/5706578). 
+## Features
 
-Beside that, we applied knownlegde learned from **AI for Embedded courses** to perform model quantization and deployment on a Raspberry Pi Zero 2W.
+- Achieves **48 FPS** with **0.257 F1** score on an Intel i5-1135G7 CPU
+- Runs at **0.5 FPS** with **0.042 F1** score on a Raspberry Pi Zero 2 W
+## Installation
 
-Our model, after training, achieves ~48FPS and 0.62 accuracy on laptop CPU. 
+Core training dependencies
+```bash
+pip install torch torchvision numpy pillow tqdm
+```
 
-After exporting and quantizing to TFLite, its run at ~0.5FPS with 0.0245 accuracy on Raspberry Pi.
+Export and quantization tools **(Linux system required)**
+```bash
+pip install --upgrade onnx onnxscript torch numpy onnx2tf onnx_graphsurgeon sng4onnx tf_keras
+```
 
-# **Fast_SCNN reference**
-Our architecture based on the origin [Fast_SCNN paper](https://arxiv.org/abs/1902.04502).
+For testing ONNX and TFLite models
+```bash
+pip install onnxruntime tensorflow
+```
 
- 
- 
- 
- 
- 
- 
- 
- 
+Optional: for visualization
+```bash
+pip install matplotlib
+```
+    
+## Usage
+After installation, move the dataset to the specific folders: **images_png** and **masks_png**.
+
+Start training with: `python train.py` (use `-h` to show arguments)
+
+Test trained model with: `python test_model.py`
+
+For model export and quantization **(Linux system required)**: `python3 export_model.py`
+
+Test exported models:
+- ONNX: `python check_middle_export.py`
+- TFLite: `python check_final_export.py`
+
+## Dataset
+This project uses the [LoveDA dataset](https://zenodo.org/records/5706578), which provides semantic segmentation data for urban and rural scenes.
+## Documentation
+
+- [Fast_SCNN](https://arxiv.org/abs/1902.04502)
+

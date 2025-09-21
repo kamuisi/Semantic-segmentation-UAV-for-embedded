@@ -1,3 +1,4 @@
+#This can't use because of the AdaptiveAvgPool2d issue
 import torch
 from fast_scnn import Fast_SCNN
 import subprocess
@@ -23,3 +24,4 @@ def onnx_to_tf():
 if __name__ == '__main__':
     export_to_onnx()
     onnx_to_tf()
+    # tf_to_tflite()

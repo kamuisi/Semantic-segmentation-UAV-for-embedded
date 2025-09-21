@@ -11,8 +11,8 @@ import argparse
 
 paser = argparse.ArgumentParser()
 
-paser.add_argument("-d", "--direction", help="Duong dan den tap anh", type=str, default="./Rural/")
-paser.add_argument("-m", "--model", help="Ten model", type=str, default="fast_scnn_model.pth")
+paser.add_argument("-d", "--direction", help="Path to image set", type=str, default="./Rural/")
+paser.add_argument("-m", "--model", help="Model name", type=str, default="fast_scnn_model.pth")
 
 arg = paser.parse_args()
 
